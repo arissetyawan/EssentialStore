@@ -46,7 +46,7 @@
 						</div>
 						<div class="col-md-8">
 							<form  id ="addToCardForm" method="POST" action={{ url('yourShoppingCart/'.$product->id) }} >
-							
+								{{ csrf_field() }}
 								<div class="form-group">
 									<button type="button" class ="btn btn-lg btn-primary addToCart_btn" >
 										<i class="fa fa-shopping-cart">  ADD TO CART</i>  

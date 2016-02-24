@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Product as Product;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
+use Session;
 
 class ProductController extends Controller
 {
@@ -91,6 +92,57 @@ class ProductController extends Controller
         
        return view('productDetails', ['product' => Product::findOrFail($id)]);
 
+    }
+
+      //add to shopping card using session
+      function addToShoppingCart(Request $request, $id){
+        
+      $product = Product::find($id);
+      $quantity = intval( $request->input('quantity'));
+      
+
+      //check to see if this product is already in the session
+
+       $orders  = Session::get('orders');
+       $found= false;
+         $post_data = array(
+                  
+                        'product_id' => $id,
+                        'product_name' =>$product->product_name,
+                        'product_image' => $product->image,
+                        'product_price' => $product->our_price,
+                        'quantity' =>$quantity,
+                        'subtotal' =>floatval($quantity) * $product->our_price
+                        
+                    );
+            
+       if (count($orders) >0){
+           for ($i=0; $i<=  max(array_keys($orders)); $i++) {
+               if (array_key_exists($i, $orders)){ 
+                       $product_id = $orders[$i]['product_id'];
+                       //if found, just change the quantity and subtotal 
+                       if($product_id === $id){
+                            $orders[$i]['quantity'] += $quantity;
+                            $orders[$i]['subtotal'] += floatval($quantity) * $product->our_price;
+                            $found = true;
+                            Session::forget('orders');
+                            Session::put('orders',$orders);
+                            break;
+
+                       }
+                   }
+           }
+           if (!$found){
+            Session::push("orders", $post_data);
+           }
+       }
+       else{
+                Session::push("orders", $post_data);
+            }
+     
+       $orders  = Session::get('orders');
+       
+        return view('yourShoppingCart',['orders' => Session::get('orders')]);
     }
 
 }
