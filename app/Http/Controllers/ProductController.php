@@ -145,6 +145,54 @@ class ProductController extends Controller
         return view('yourShoppingCart',['orders' => Session::get('orders')]);
     }
 
+
+     function removeFromShoppingCart(Request $request){
+        $product_id = $request->input('product_id');
+        //search in session and remove this produc with this id
+        $orders  = Session::get('orders');
+   
+        for ($i=0; $i<= max(array_keys($orders)); $i++) {
+            # code..
+            if (array_key_exists($i, $orders)){
+                if ($product_id == $orders[$i]['product_id']){
+                    unset($orders[$i]);
+                    break;
+                }
+            }    
+        }
+
+        Session::forget('orders');
+        Session::put('orders',$orders);
+        return view('yourShoppingCart',['orders' => Session::get('orders')]);
+
+    }
+    function shoppingCartChange(Request $request){
+        //update the number of the product changed
+
+        $product_id = $request->input('product_id');
+        $product = Product::find($product_id);    
+        $quantity = $request->input('newQuantity');
+        $orders = Session::get('orders');
+        if (count($orders) >0){
+               for ($i=0; $i<=  max(array_keys($orders)); $i++) {
+                   if (array_key_exists($i, $orders)){ 
+                           $product_id_index = $orders[$i]['product_id'];
+                           //if found, just change the quantity and subtotal 
+                           if($product_id === $product_id_index){
+                                $orders[$i]['quantity'] = $quantity;
+                                $orders[$i]['subtotal'] = floatval($quantity) * $product->our_price;
+                                Session::forget('orders');
+                                Session::put('orders',$orders);
+                                break;
+
+                           }
+                       }
+               }
+
+        }
+        return view('yourShoppingCart',['orders' => Session::get('orders')]);
+        }
+
 }
 
 

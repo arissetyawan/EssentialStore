@@ -45,6 +45,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/create','ProductController@createProduct')->middleware('admin');
      Route::get('/buy/{id}','ProductController@getProductDetails');
     Route::post('/yourShoppingCart/{id}','ProductController@addToShoppingCart');
-    Route::get('/yourShoppingCart','ProductController@getShoppingCart'); 
+    Route::get('/yourShoppingCart','ProductController@getShoppingCart');
+    Route::post('/shoppingCartChanged','ProductController@shoppingCartChange'); 
+     Route::delete('/yourShoppingCart/delete','ProductController@removeFromShoppingCart'); 
 
 });

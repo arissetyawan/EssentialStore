@@ -4,7 +4,7 @@
 <div class="container">
 	<form method="POST" id = "changeQuantity" action={{ url('shoppingCartChanged') }} >
 				{{ csrf_field() }}
-                 {!! method_field('PUT') !!}
+               
 </form>
 	<form  id ="removeItem" action={{ url('yourShoppingCart/delete') }} method="POST" class="hidden">
 		{{ csrf_field() }}
