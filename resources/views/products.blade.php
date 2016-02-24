@@ -122,7 +122,7 @@
                 </button>
             </td>
             <td>
-              <form action={{ url('delete/products/'.$product->id) }} method="POST">
+              <form action={{ url('delete/'.$product->id) }} method="POST">
                   {!! csrf_field() !!}
                   {!! method_field('DELETE') !!}
 

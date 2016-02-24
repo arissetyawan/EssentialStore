@@ -25,7 +25,7 @@ $(document).ready(function(){
 	});
 
 	$('.delete_btn').click(function (event) {
-		$('#delete_form').attr("action","delete/products/" + $(this).attr('product_id') );
+		$('#delete_form').attr("action","delete/" + $(this).attr('product_id') );
 		    
         
         

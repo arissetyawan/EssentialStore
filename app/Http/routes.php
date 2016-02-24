@@ -29,27 +29,6 @@ Route::get('/', function () {
 */
 
 
-
-Route::post('/create', function (Request $request) {
-   
-    $file = Input::file('product_photo');
-    $filename = time() . '.' .$file->getClientOriginalExtension();
-    $path = public_path('images/products/' . $filename);
-    Image::make($file->getRealPath())->save($path);
-   
-    $product = new Product;
-    $product->product_name = $request->product_name;
-    $product->product_description = $request->product_description;
-    $product->number = $request->amount;
-    $product->our_price = $request->our_price;
-    $product->market_price = $request->market_price;
-    $product->image = $filename;
-    $product->save();
-    
-    
-    return redirect('/');
-});
-
 Route::group(['middleware' => ['web']], function () {
     //
 });
@@ -60,4 +39,9 @@ Route::group(['middleware' => 'web'], function () {
      Route::get('/home', 'ProductController@getProducts');
     Route::get('/manage','ProductController@getProductsList');
     Route::get('/addProduct','ProductController@addNewProduct');
+    Route::put('/update','ProductController@updateProduct');
+    Route::delete('/delete/{id}','ProductController@deleteProduct');
+    Route::post('/create','ProductController@createProduct');
+     Route::get('/buy/{id}','ProductController@getProductDetails');
+
 });
