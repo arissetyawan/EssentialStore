@@ -39,9 +39,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
-                </a>
+                <a class="navbar-brand" href="/home"><img src={{ URL::to('/'). "/images/sites/phamaStoreIcon.jpg" }} width="50px" height="30px"></a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -63,6 +61,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+                                
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>

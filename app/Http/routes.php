@@ -37,11 +37,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
      Route::get('/home', 'ProductController@getProducts');
-    Route::get('/manage','ProductController@getProductsList');
+    Route::get('/manage','ProductController@getProductsList')->middleware('admin');
     Route::get('/addProduct','ProductController@addNewProduct');
     Route::put('/update','ProductController@updateProduct');
     Route::delete('/delete/{id}','ProductController@deleteProduct');
-    Route::post('/create','ProductController@createProduct');
+    Route::post('/create','ProductController@createProduct')->middleware('admin');
      Route::get('/buy/{id}','ProductController@getProductDetails');
 
 });
