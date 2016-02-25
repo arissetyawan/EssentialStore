@@ -10,7 +10,7 @@ use App\Product as Product;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use Session;
-
+require_once base_path(). '/vendor/autoload.php';
 class ProductController extends Controller
 {
 
@@ -192,6 +192,30 @@ class ProductController extends Controller
         }
         return view('yourShoppingCart',['orders' => Session::get('orders')]);
         }
+
+    function checkout(){
+         //echo(Config::get('stripe.secret_key'));
+         \Stripe\Stripe::setApiKey('you-stripe-secretkey');
+         $token = Input::get('stripeToken');
+         echo $token;
+         $amount = Input::get('amount');
+          $customer = \Stripe\Customer::create(array(
+              'email' => 'customer@example.com',
+              'card'  => $token
+          ));
+
+         $charge = \Stripe\Charge::create(array(
+            'customer' => $customer->id,
+            'amount'   => 5000,
+            'currency' => 'usd'
+        ));
+
+        echo '<h1>Successfully charged $50.00!</h1>';
+    }   
+
+    function processEPay(){
+      return view('pay');
+    }       
 
 }
 

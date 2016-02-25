@@ -85,7 +85,7 @@ color: rgba(255, 145, 110, 0.55);"></i>
 
 			</table>
 			<form method= "POST" action = {{ url('ePay'). '?amount=' . $total  }} id = "ePayForm">
-				
+				{{ csrf_field() }}
 				<button  type ="submit" id = "ePayBtn" class="btn btn-lg text-uppercase btn-success pull-right"><i class="fa fa-credit-card" style="font-size:1.2em"></i>  Check out</button>	
 			</form>
 		</div>

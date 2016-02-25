@@ -48,5 +48,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/yourShoppingCart','ProductController@getShoppingCart');
     Route::post('/shoppingCartChanged','ProductController@shoppingCartChange'); 
      Route::delete('/yourShoppingCart/delete','ProductController@removeFromShoppingCart'); 
-
+      Route::post('/ePay', 'ProductController@processEPay');
+       Route::post('/checkout','ProductController@checkout');
 });
