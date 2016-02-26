@@ -195,7 +195,7 @@ class ProductController extends Controller
 
     function checkout(){
          //echo(Config::get('stripe.secret_key'));
-         \Stripe\Stripe::setApiKey('sk_test_02NBgD6sbIQlXTPKi34phaeb');
+         \Stripe\Stripe::setApiKey('your_secret_key');
          $token = Input::get('stripeToken');
          echo $token;
          $amount = Input::get('amount');
@@ -206,11 +206,11 @@ class ProductController extends Controller
 
          $charge = \Stripe\Charge::create(array(
             'customer' => $customer->id,
-            'amount'   => 5000,
+            'amount'   => $amount,
             'currency' => 'usd'
         ));
 
-        echo '<h1>Successfully charged $50.00!</h1>';
+        echo '<h1>Successfully charged $'. $amount .' </h1>';
     }   
 
        function processEPay(){

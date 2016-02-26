@@ -13,7 +13,11 @@
 
 	
 	</form> -->
+	<p class="hidden" {{$total = 0}}></p>
+	@foreach($orders as $order)
+		<p class="hidden">{{ $total += $order['subtotal']}}</p>
 
+	@endforeach	
 	<form action="/checkout" method="POST">
 		{{ csrf_field() }}
 	  <script
@@ -23,10 +27,10 @@
 	    data-name="Demo Site"
 	    data-description="2 widgets"
 	    data-currency="aud"
-	    data-amount="4000"
+	    data-amount={{$total *100}}
 	    data-locale="auto">
 	  </script>
-	  <input type="hidden" name = "amount" value="4000" />
+	  <input type="hidden" name = "amount" value={{$total*100}} />
 </form>
 
 	<!-- paypal -->
