@@ -12,6 +12,15 @@
             <textarea class="form-control" id="product-description" name = "product_description"></textarea>
           </div>
           <div class="form-group">
+            <label for="category" class="control-label">Category</label>
+             <select class="form-control category" id="product_category" style="width:200px" >
+                 @foreach ($categories as $cateogry)
+                  <option name = "category_id" value = {{$cateogry->id}}>{{$cateogry->category_name}}</option>
+                @endforeach
+                </select>
+          </div>
+
+          <div class="form-group">
             <label for="our-price" class="control-label">Our Price</label>
             <input type = "text" class="form-control" id="our-price" name ="our_price"></textarea>
           </div>

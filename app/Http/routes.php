@@ -2,6 +2,7 @@
 use App\Product as Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+
 /*
 |--------------------------------------------------------------------------
 | Routes File
@@ -50,4 +51,7 @@ Route::group(['middleware' => 'web'], function () {
      Route::delete('/yourShoppingCart/delete','ProductController@removeFromShoppingCart'); 
       Route::post('/ePay', 'ProductController@processEPay');
        Route::post('/checkout','ProductController@checkout');
+    Route::get('/newCategory','CategoryController@newCategory');
+    Route::post('/createCategory','CategoryController@createCategory');
+    Route::get('/getProductsInCat','ProductController@getProductsInCategory');
 });

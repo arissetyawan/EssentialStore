@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->float('our_price');
             $table->float('market_price');
             $table->integer('number');
+            $table->integer('category_id');
             
 
         });
@@ -34,6 +35,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        //
+       Schema::drop('products');
     }
 }

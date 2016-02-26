@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Product as Product;
+use App\Category as Category;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use Session;
+use DB;
 require_once base_path(). '/vendor/autoload.php';
 class ProductController extends Controller
 {
@@ -31,7 +33,9 @@ class ProductController extends Controller
     	}
 
     	function addNewProduct(){
-        return view('newProduct');
+        //get all the categories
+        $categories = Category::all();
+        return view('newProduct',['categories' => $categories]);
     }
 
     //update product 
@@ -78,6 +82,7 @@ class ProductController extends Controller
         $product = new Product;
         $product->product_name = $request->product_name;
         $product->product_description = $request->product_description;
+        $product->category_id = $request->category_id;
         $product->number = $request->amount;
         $product->our_price = $request->our_price;
         $product->market_price = $request->market_price;
@@ -195,7 +200,7 @@ class ProductController extends Controller
 
     function checkout(){
          //echo(Config::get('stripe.secret_key'));
-         \Stripe\Stripe::setApiKey('your_secret_key');
+         \Stripe\Stripe::setApiKey('sk_test_02NBgD6sbIQlXTPKi34phaeb');
          $token = Input::get('stripeToken');
          echo $token;
          $amount = Input::get('amount');
@@ -215,7 +220,17 @@ class ProductController extends Controller
 
        function processEPay(){
       return view('pay',['orders' => Session::get('orders')]);
-    }       
+    } 
+
+
+    function getProductsInCategory(Request $request){
+       $cat = $request->input('cat');
+       $id =  DB::table('categories')->where('category_name', $cat)->value('id');
+      //get all products with category_id equal to $id
+      $products = Category::find($id)->products;
+     
+      return view('productsInCategory',['products' => $products]);
+    }      
 
 }
 
