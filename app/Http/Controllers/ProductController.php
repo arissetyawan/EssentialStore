@@ -227,9 +227,9 @@ class ProductController extends Controller
        $cat = $request->input('cat');
        $id =  DB::table('categories')->where('category_name', $cat)->value('id');
       //get all products with category_id equal to $id
-      $products = Category::find($id)->products;
+      $products = Product::where('category_id', $id)->paginate(12);
      
-      return view('productsInCategory',['products' => $products]);
+      return view('home',['products' => $products]);
     }      
 
 }
