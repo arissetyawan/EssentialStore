@@ -14,6 +14,8 @@
         <form action={{ url('update') }} method ="POST"  enctype="multipart/form-data">
       {{ csrf_field() }}
          <input type ="hidden" name="_method" value = "PUT">
+
+
           <div class="form-group">
             <input type = "text" class ="form-control product-id hidden" name="product_id">
 
@@ -23,6 +25,14 @@
           <div class="form-group">
             <label for="product-description" class="control-label">Product description</label>
             <textarea class="form-control product-description" id="product-description" name = "product_description"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="category" class="control-label">Category</label>
+             <select class="form-control category" id="product_category" name = "category_id"  style="width:200px" >
+                 @foreach ($categories as $cateogry)
+                  <option  value = {{$cateogry->id}}>{{$cateogry->category_name}}</option>
+                @endforeach
+                </select>
           </div>
           <div class="form-group">
             <label for="our-price" class="control-label">Our Price</label>
@@ -100,7 +110,7 @@
  
  		 <table class="table">
  		 	<tr>
- 		 		<th>ID</th>
+ 		 		<th>Photo</th>
  		 		<th>Product Name</th>
         <th>Product Description</th>
  		 		<th>Available</th>
@@ -108,20 +118,22 @@
  		 		<th>Our Price</th>	
  		 	</tr>	
   			@foreach($products as $product)
-  				<tr>
-  					<td>{{$product->id}}</td>
-  					<td>{{$product->product_name}}</td>
-            <td>{{$product->product_description}}</td> 
-  					<td>{{$product->number}}</td>
-  					<td>{{$product->market_price}}</td>
-  					<td>{{$product->our_price}}</td>
+  				<tr style="vertical-align:middle!important" >
+
+  					<td><img  src=  {{ URL::to('/'). "/images/products/" . $product->image}} class = "product_photo" width=50px height=50px></td>
+  					<td class="hidden" product_id={{$product->id}}></td>
+            <td style="vertical-align:middle!important">{{$product->product_name}}</td>
+            <td style="vertical-align:middle!important">{{$product->product_description}}</td> 
+  					<td style="vertical-align:middle!important">{{$product->number}}</td>
+  					<td style="vertical-align:middle!important">{{$product->market_price}}</td>
+  					<td style="vertical-align:middle!important">{{$product->our_price}}</td>
             <td class="hidden">{{$product->image}}</td>
-  					<td>
+  					<td style="vertical-align:middle!important">
                 <button type="button" class = "btn btn-default btn-sm btn-primary update_btn" data-toggle="modal" data-target="#exampleModal" >
                   <i class="fa fa-pencil-square-o"></i> Update
                 </button>
             </td>
-            <td>
+            <td style="vertical-align:middle!important">
               <form action={{ url('delete/'.$product->id) }} method="POST">
                   {!! csrf_field() !!}
                   {!! method_field('DELETE') !!}

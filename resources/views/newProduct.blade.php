@@ -1,21 +1,22 @@
 @extends('manage')
 @section('content')
 	<div class="container">
+    @include('common.errors')
 		<form action={{ url('create') }} method = "POST" enctype="multipart/form-data">
       {{ csrf_field() }}
           <div class="form-group">
             <label for="product-name" class="control-label">Product name</label>
             <input type="text" class="form-control" id="product-name" name="product_name">
-          </div>
+            </div>
           <div class="form-group">
             <label for="product-description" class="control-label">Product description</label>
             <textarea class="form-control" id="product-description" name = "product_description"></textarea>
           </div>
           <div class="form-group">
             <label for="category" class="control-label">Category</label>
-             <select class="form-control category" id="product_category" style="width:200px" >
+             <select class="form-control category" id="product_category" name = "category_id"  style="width:200px" >
                  @foreach ($categories as $cateogry)
-                  <option name = "category_id" value = {{$cateogry->id}}>{{$cateogry->category_name}}</option>
+                  <option  value = {{$cateogry->id}}>{{$cateogry->category_name}}</option>
                 @endforeach
                 </select>
           </div>

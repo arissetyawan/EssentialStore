@@ -17,7 +17,7 @@
 				
 					<h1 style="margin:0">$ {{$product->our_price}}</h1>
 					<h2 style="margin:0; color:red;" class="red"> Save $ {{$product->market_price - $product->our_price}}</h2>
-					<h3 style=" color: gray"> Don't pay RRP {{$product->other_price}}</h3>
+					<h3 style=" color: gray"> Don't pay RRP {{$product->market_price}}</h3>
 					<div class="row">
 						<div class="col-md-4">
 							

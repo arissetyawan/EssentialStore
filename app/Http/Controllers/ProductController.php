@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use Session;
 use DB;
+use Illuminate\Support\Facades\Validator;
 require_once base_path(). '/vendor/autoload.php';
 class ProductController extends Controller
 {
@@ -27,9 +28,10 @@ class ProductController extends Controller
     	}
        function getProductsList(){
         $products = Product::paginate(5);
-    	//$products = Product::all();
-    	$data = array('products' => $products);
-    	return view('products',$data);
+    
+      $categories = Category::all();
+      
+    	return view('products',['products' =>$products, 'categories' => $categories]);
     	}
 
     	function addNewProduct(){
@@ -53,10 +55,11 @@ class ProductController extends Controller
         $id = $request->product_id;
         $product = Product::find($id);
         $product->product_name = $request->product_name;
-        $product->products_description = $request->product_description;
-        $product->other_price = $request->market_price;
+        $product->product_description = $request->product_description;
+        $product->market_price = $request->market_price;
         $product->our_price = $request->our_price;
-        $product->available = $request->amount;
+        $product->number = $request->amount;
+        $product->category_id = $request->category_id;
         if (strlen($filename) >0)
             $product->image = $filename;
         $product->save();
@@ -74,23 +77,43 @@ class ProductController extends Controller
     //create a product
 
     function createProduct(Request $request){
-         $file = Input::file('product_photo');
-        $filename = time() . '.' .$file->getClientOriginalExtension();
-        $path = public_path('images/products/' . $filename);
-        Image::make($file->getRealPath())->save($path);
-       
+         $validator = Validator::make($request->all(), [
+          'product_name' => 'required|max:255',
+          'product_description' =>'required',
+          'category_id' =>'required',
+          'amount' =>'required|numeric',
+          'our_price' =>'required|numeric',
+          'market_price' =>'required|numeric'
+          ]);
+
+          if ($validator->fails()) {
+              return redirect('/addProduct')
+                  ->withInput()
+                  ->withErrors($validator);
+          }
+
+      
         $product = new Product;
+       
         $product->product_name = $request->product_name;
         $product->product_description = $request->product_description;
         $product->category_id = $request->category_id;
         $product->number = $request->amount;
         $product->our_price = $request->our_price;
         $product->market_price = $request->market_price;
-        $product->image = $filename;
+        //store images and save image name in the database
+        if (Input::hasFile('product_photo'))  {
+          $file = Input::file('product_photo');
+          $filename = time() . '.' .$file->getClientOriginalExtension();
+          $path = public_path('images/products/' . $filename);
+          Image::make($file->getRealPath())->save($path);
+          $product->image = $filename;
+        }
+       
         $product->save();
         
         
-        return redirect('/');
+        return redirect('/addProduct');
     }
 
     function getProductDetails($id){

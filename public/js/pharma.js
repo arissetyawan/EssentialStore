@@ -5,13 +5,13 @@ $(document).ready(function(){
 	  var tds = new Array();
 	  tds = $(this).parent().siblings();
 
-	  var id = $(tds[0]).text();
-	  var product_name = $(tds[1]).text();
-	  var product_description = $(tds[2]).text();
-	  var avalability = $(tds[3]).text();
-	  var other_price = $(tds[4]).text();
-	  var our_price =$(tds[5]).text();
-	  var product_thumnail = $(tds[6]).text();
+	  var id = $(tds[1]).attr("product_id");
+	  var product_name = $(tds[2]).text();
+	  var product_description = $(tds[3]).text();
+	  var avalability = $(tds[4]).text();
+	  var other_price = $(tds[5]).text();
+	  var our_price =$(tds[6]).text();
+	  var product_thumnail = $(tds[7]).text();
 	  $('#exampleModal').find('.modal-title').text('Update Product details');
 	  $('#exampleModal').find('.product-id').val(id);
 	  $('#exampleModal').find('.product-name').val(product_name);
